@@ -1,0 +1,3 @@
+ok  	github.com/wyx2685/XrayR/common/limiter	0.362s
+ok  	github.com/wyx2685/XrayR/common/rule	0.329s
+ok  	github.com/wyx2685/XrayR/service/controller	0.872s

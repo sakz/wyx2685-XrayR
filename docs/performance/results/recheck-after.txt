@@ -1,0 +1,132 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/app/mydispatcher
+cpu: Apple M3 Max
+BenchmarkDispatcherGetLink 	2026/09/06 22:16:59 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:16:59 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:16:59 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:16:59 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:16:59 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:16:59 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:16:59 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:16:59 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:00 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:00 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+  496026	      1137 ns/op	    1592 B/op	      34 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/limiter
+cpu: Apple M3 Max
+BenchmarkBucketFirstConnection 	  643522	       959.4 ns/op	    1104 B/op	      24 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/service/controller
+cpu: Apple M3 Max
+BenchmarkCompareUserList/users=10000/reordered         	     260	   2232598 ns/op	 1728980 B/op	       2 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/app/mydispatcher
+cpu: Apple M3 Max
+BenchmarkDispatcherGetLink 	2026/09/06 22:17:03 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:03 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:03 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:03 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:03 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:03 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:03 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:03 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+  565270	      1124 ns/op	    1592 B/op	      34 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/limiter
+cpu: Apple M3 Max
+BenchmarkBucketFirstConnection 	  621085	       966.1 ns/op	    1104 B/op	      24 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/service/controller
+cpu: Apple M3 Max
+BenchmarkCompareUserList/users=10000/reordered         	     264	   2326831 ns/op	 1729187 B/op	       2 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/app/mydispatcher
+cpu: Apple M3 Max
+BenchmarkDispatcherGetLink 	2026/09/06 22:17:08 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:08 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:08 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:08 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:08 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:08 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:08 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:08 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+  498499	      1145 ns/op	    1592 B/op	      34 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/limiter
+cpu: Apple M3 Max
+BenchmarkBucketFirstConnection 	  669801	       961.5 ns/op	    1104 B/op	      24 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/service/controller
+cpu: Apple M3 Max
+BenchmarkCompareUserList/users=10000/reordered         	     261	   2234866 ns/op	 1729195 B/op	       2 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/app/mydispatcher
+cpu: Apple M3 Max
+BenchmarkDispatcherGetLink 	2026/09/06 22:17:10 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:10 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:10 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:10 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:10 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:10 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:10 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:10 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+  587610	      1106 ns/op	    1592 B/op	      34 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/limiter
+cpu: Apple M3 Max
+BenchmarkBucketFirstConnection 	  596336	       949.4 ns/op	    1104 B/op	      24 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/service/controller
+cpu: Apple M3 Max
+BenchmarkCompareUserList/users=10000/reordered         	     259	   2256310 ns/op	 1729321 B/op	       2 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/app/mydispatcher
+cpu: Apple M3 Max
+BenchmarkDispatcherGetLink 	2026/09/06 22:17:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:17:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:17:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+  510172	      1149 ns/op	    1592 B/op	      34 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/limiter
+cpu: Apple M3 Max
+BenchmarkBucketFirstConnection 	  646815	       970.9 ns/op	    1104 B/op	      24 allocs/op
+PASS
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/service/controller
+cpu: Apple M3 Max
+BenchmarkCompareUserList/users=10000/reordered         	     262	   2246787 ns/op	 1729144 B/op	       2 allocs/op
+PASS

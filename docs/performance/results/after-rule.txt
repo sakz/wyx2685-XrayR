@@ -1,0 +1,26 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/rule
+cpu: Apple M3 Max
+BenchmarkRuleDetect/rules=1/hit=false         	 6836906	        35.02 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRuleDetect/rules=1/hit=false         	 6891246	        35.29 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRuleDetect/rules=1/hit=false         	 6757754	        34.63 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRuleDetect/rules=1/hit=false         	 6900624	        34.93 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRuleDetect/rules=1/hit=false         	 6856040	        35.23 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRuleDetect/rules=1/hit=true          	 1310811	       182.8 ns/op	      64 B/op	       2 allocs/op
+BenchmarkRuleDetect/rules=1/hit=true          	 1310557	       179.8 ns/op	      64 B/op	       2 allocs/op
+BenchmarkRuleDetect/rules=1/hit=true          	 1334570	       177.7 ns/op	      64 B/op	       2 allocs/op
+BenchmarkRuleDetect/rules=1/hit=true          	 1360819	       207.5 ns/op	      64 B/op	       2 allocs/op
+BenchmarkRuleDetect/rules=1/hit=true          	 1299434	       173.9 ns/op	      64 B/op	       2 allocs/op
+BenchmarkRuleDetect/rules=20/hit=false        	  524642	       460.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRuleDetect/rules=20/hit=false        	  510243	       465.3 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRuleDetect/rules=20/hit=false        	  505027	       463.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRuleDetect/rules=20/hit=false        	  521252	       462.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRuleDetect/rules=20/hit=false        	  519484	       463.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRuleDetect/rules=20/hit=true         	  369237	       756.1 ns/op	      64 B/op	       2 allocs/op
+BenchmarkRuleDetect/rules=20/hit=true         	  357054	       747.6 ns/op	      64 B/op	       2 allocs/op
+BenchmarkRuleDetect/rules=20/hit=true         	  364606	       744.1 ns/op	      64 B/op	       2 allocs/op
+BenchmarkRuleDetect/rules=20/hit=true         	  354354	       723.7 ns/op	      64 B/op	       2 allocs/op
+BenchmarkRuleDetect/rules=20/hit=true         	  306762	       753.6 ns/op	      64 B/op	       2 allocs/op
+PASS
+ok  	github.com/wyx2685/XrayR/common/rule	6.669s

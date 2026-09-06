@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
+	"slices"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -448,40 +449,35 @@ func (c *Controller) addNewUser(userInfo *[]api.UserInfo, nodeInfo *api.NodeInfo
 }
 
 func compareUserList(old, new *[]api.UserInfo) (deleted, added []api.UserInfo) {
-	mSrc := make(map[api.UserInfo]byte) // 按源数组建索引
-	mAll := make(map[api.UserInfo]byte) // 源+目所有元素建索引
-
-	var set []api.UserInfo // 交集
-
-	// 1.源数组建立map
-	for _, v := range *old {
-		mSrc[v] = 0
-		mAll[v] = 0
+	// Keep full-struct comparison, including credentials and limits.
+	if slices.Equal(*old, *new) {
+		return nil, nil
 	}
-	// 2.目数组中，存不进去，即重复元素，所有存不进去的集合就是并集
-	for _, v := range *new {
-		l := len(mAll)
-		mAll[v] = 1
-		if l != len(mAll) { // 长度变化，即可以存
-			l = len(mAll)
-		} else { // 存不了，进并集
-			set = append(set, v)
-		}
+	const (
+		oldOnly byte = iota
+		newOnly
+		shared
+	)
+	users := make(map[api.UserInfo]byte, max(len(*old), len(*new)))
+	for _, user := range *old {
+		users[user] = oldOnly
 	}
-	// 3.遍历交集，在并集中找，找到就从并集中删，删完后就是补集（即并-交=所有变化的元素）
-	for _, v := range set {
-		delete(mAll, v)
-	}
-	// 4.此时，mall是补集，所有元素去源中找，找到就是删除的，找不到的必定能在目数组中找到，即新加的
-	for v := range mAll {
-		_, exist := mSrc[v]
-		if exist {
-			deleted = append(deleted, v)
+	for _, user := range *new {
+		if _, exists := users[user]; exists {
+			// Repeated new entries were also excluded by the original diff.
+			users[user] = shared
 		} else {
-			added = append(added, v)
+			users[user] = newOnly
 		}
 	}
-
+	for user, state := range users {
+		switch state {
+		case oldOnly:
+			deleted = append(deleted, user)
+		case newOnly:
+			added = append(added, user)
+		}
+	}
 	return deleted, added
 }
 

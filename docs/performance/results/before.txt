@@ -1,0 +1,154 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/limiter
+cpu: Apple M3 Max
+BenchmarkGetUserBucket/users=100/tcp=true         	  481284	       523.8 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=true         	  449683	       522.7 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=true         	  514350	       479.3 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=true         	  518652	       491.5 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=true         	  527979	       498.4 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=false        	 1950020	       130.3 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=false        	 1859652	       133.8 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=false        	 1826734	       130.2 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=false        	 1877658	       123.4 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=false        	 1816143	       127.4 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=true        	  466910	       577.5 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=true        	  463174	       538.6 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=true        	  452068	       557.0 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=true        	  458667	       575.6 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=true        	  451364	       558.1 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=false       	 1784569	       130.5 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=false       	 1711111	       140.9 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=false       	 1831812	       138.8 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=false       	 1804630	       134.2 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=false       	 1671370	       136.8 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=true       	  394900	       799.4 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=true       	  360517	       760.3 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=true       	  349354	       815.8 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=true       	  370376	       771.6 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=true       	  440407	       748.7 ns/op	     504 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=false      	 1471449	       164.4 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=false      	 1501844	       168.0 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=false      	 1480220	       165.6 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=false      	 1558560	       168.1 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=false      	 1467237	       174.9 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=true       	  506733	      1156 ns/op	     505 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=true       	  428325	      1120 ns/op	     505 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=true       	  322093	      1185 ns/op	     506 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=true       	  417423	      1133 ns/op	     505 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=true       	  395911	      1170 ns/op	     506 B/op	      14 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=false      	 1000000	       211.5 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=false      	 1000000	       213.4 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=false      	 1000000	       221.7 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=false      	 1000000	       203.2 ns/op	      96 B/op	       2 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=false      	 1000000	       206.3 ns/op	      96 B/op	       2 allocs/op
+BenchmarkBucketFirstConnection                    	  222954	      1033 ns/op	    1104 B/op	      24 allocs/op
+BenchmarkBucketFirstConnection                    	  205003	       976.1 ns/op	    1104 B/op	      24 allocs/op
+BenchmarkBucketFirstConnection                    	  251311	       936.9 ns/op	    1104 B/op	      24 allocs/op
+BenchmarkBucketFirstConnection                    	  272138	       922.0 ns/op	    1104 B/op	      24 allocs/op
+BenchmarkBucketFirstConnection                    	  280222	       941.4 ns/op	    1104 B/op	      24 allocs/op
+BenchmarkBucketParallel                           	  577032	       456.3 ns/op	     504 B/op	      14 allocs/op
+BenchmarkBucketParallel                           	  565148	       458.6 ns/op	     504 B/op	      14 allocs/op
+BenchmarkBucketParallel                           	  557534	       452.5 ns/op	     504 B/op	      14 allocs/op
+BenchmarkBucketParallel                           	  560812	       428.0 ns/op	     504 B/op	      14 allocs/op
+BenchmarkBucketParallel                           	  565776	       439.8 ns/op	     504 B/op	      14 allocs/op
+PASS
+ok  	github.com/wyx2685/XrayR/common/limiter	20.279s
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/rule
+cpu: Apple M3 Max
+PASS
+ok  	github.com/wyx2685/XrayR/common/rule	5.747s
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/service/controller
+cpu: Apple M3 Max
+BenchmarkCompareUserList/users=100/unchanged         	    5031	     61222 ns/op	   89978 B/op	      26 allocs/op
+BenchmarkCompareUserList/users=100/unchanged         	    5684	     61881 ns/op	   90002 B/op	      26 allocs/op
+BenchmarkCompareUserList/users=100/unchanged         	    5174	     62404 ns/op	   90059 B/op	      26 allocs/op
+BenchmarkCompareUserList/users=100/unchanged         	    6373	     61674 ns/op	   90009 B/op	      26 allocs/op
+BenchmarkCompareUserList/users=100/unchanged         	    5692	     61425 ns/op	   90055 B/op	      26 allocs/op
+BenchmarkCompareUserList/users=100/one-percent       	    5426	     63882 ns/op	   90371 B/op	      28 allocs/op
+BenchmarkCompareUserList/users=100/one-percent       	    5541	     74413 ns/op	   90383 B/op	      28 allocs/op
+BenchmarkCompareUserList/users=100/one-percent       	    5192	     66446 ns/op	   90351 B/op	      28 allocs/op
+BenchmarkCompareUserList/users=100/one-percent       	    6134	     63893 ns/op	   90282 B/op	      28 allocs/op
+BenchmarkCompareUserList/users=100/one-percent       	    5995	     62374 ns/op	   90350 B/op	      28 allocs/op
+BenchmarkCompareUserList/users=100/all               	    3586	     89071 ns/op	  153024 B/op	      39 allocs/op
+BenchmarkCompareUserList/users=100/all               	    4029	     91280 ns/op	  152958 B/op	      39 allocs/op
+BenchmarkCompareUserList/users=100/all               	    3603	     90670 ns/op	  152957 B/op	      39 allocs/op
+BenchmarkCompareUserList/users=100/all               	    3999	     87732 ns/op	  153009 B/op	      39 allocs/op
+BenchmarkCompareUserList/users=100/all               	    3553	     92344 ns/op	  153033 B/op	      39 allocs/op
+BenchmarkCompareUserList/users=1000/unchanged        	     324	    757615 ns/op	 1173747 B/op	      80 allocs/op
+BenchmarkCompareUserList/users=1000/unchanged        	     315	    728526 ns/op	 1173831 B/op	      80 allocs/op
+BenchmarkCompareUserList/users=1000/unchanged        	     330	    711302 ns/op	 1173489 B/op	      79 allocs/op
+BenchmarkCompareUserList/users=1000/unchanged        	     343	    702666 ns/op	 1172708 B/op	      78 allocs/op
+BenchmarkCompareUserList/users=1000/unchanged        	     342	    717938 ns/op	 1172535 B/op	      78 allocs/op
+BenchmarkCompareUserList/users=1000/one-percent      	     331	    713012 ns/op	 1179942 B/op	      89 allocs/op
+BenchmarkCompareUserList/users=1000/one-percent      	     330	    709092 ns/op	 1180049 B/op	      89 allocs/op
+BenchmarkCompareUserList/users=1000/one-percent      	     322	    722093 ns/op	 1179945 B/op	      89 allocs/op
+BenchmarkCompareUserList/users=1000/one-percent      	     337	    728622 ns/op	 1180344 B/op	      89 allocs/op
+BenchmarkCompareUserList/users=1000/one-percent      	     324	    739371 ns/op	 1179934 B/op	      89 allocs/op
+BenchmarkCompareUserList/users=1000/all              	     228	   1054534 ns/op	 1871937 B/op	     122 allocs/op
+BenchmarkCompareUserList/users=1000/all              	     225	   1023086 ns/op	 1871309 B/op	     121 allocs/op
+BenchmarkCompareUserList/users=1000/all              	     237	   1043524 ns/op	 1871263 B/op	     121 allocs/op
+BenchmarkCompareUserList/users=1000/all              	     228	    999382 ns/op	 1871772 B/op	     122 allocs/op
+BenchmarkCompareUserList/users=1000/all              	     242	   1013754 ns/op	 1871877 B/op	     122 allocs/op
+BenchmarkCompareUserList/users=10000/unchanged       	      57	   6954058 ns/op	11699039 B/op	     577 allocs/op
+BenchmarkCompareUserList/users=10000/unchanged       	      55	   7049236 ns/op	11701891 B/op	     580 allocs/op
+BenchmarkCompareUserList/users=10000/unchanged       	      57	   6937894 ns/op	11703205 B/op	     581 allocs/op
+BenchmarkCompareUserList/users=10000/unchanged       	      58	   7049981 ns/op	11701418 B/op	     579 allocs/op
+BenchmarkCompareUserList/users=10000/unchanged       	      56	   7100163 ns/op	11701136 B/op	     579 allocs/op
+BenchmarkCompareUserList/users=10000/one-percent     	      57	   7125125 ns/op	11769202 B/op	     599 allocs/op
+BenchmarkCompareUserList/users=10000/one-percent     	      51	   7294918 ns/op	11768903 B/op	     599 allocs/op
+BenchmarkCompareUserList/users=10000/one-percent     	      57	   7132691 ns/op	11769768 B/op	     600 allocs/op
+BenchmarkCompareUserList/users=10000/one-percent     	      55	   7300177 ns/op	11762990 B/op	     592 allocs/op
+BenchmarkCompareUserList/users=10000/one-percent     	      54	   7370035 ns/op	11767219 B/op	     597 allocs/op
+BenchmarkCompareUserList/users=10000/all             	      22	  10613320 ns/op	19684644 B/op	     897 allocs/op
+BenchmarkCompareUserList/users=10000/all             	      22	  10957989 ns/op	19681752 B/op	     894 allocs/op
+BenchmarkCompareUserList/users=10000/all             	      21	  11017171 ns/op	19679941 B/op	     892 allocs/op
+BenchmarkCompareUserList/users=10000/all             	      20	  10645862 ns/op	19679472 B/op	     892 allocs/op
+BenchmarkCompareUserList/users=10000/all             	      21	  10188901 ns/op	19685616 B/op	     898 allocs/op
+BenchmarkCompareUserList/users=50000/unchanged       	       6	  36788812 ns/op	56256848 B/op	    4000 allocs/op
+BenchmarkCompareUserList/users=50000/unchanged       	       6	  38125840 ns/op	56286565 B/op	    4033 allocs/op
+BenchmarkCompareUserList/users=50000/unchanged       	       6	  39942160 ns/op	56293434 B/op	    4040 allocs/op
+BenchmarkCompareUserList/users=50000/unchanged       	       6	  38995132 ns/op	56284176 B/op	    4030 allocs/op
+BenchmarkCompareUserList/users=50000/unchanged       	       6	  36359778 ns/op	56266256 B/op	    4010 allocs/op
+BenchmarkCompareUserList/users=50000/one-percent     	       6	  37139444 ns/op	56596666 B/op	    4108 allocs/op
+BenchmarkCompareUserList/users=50000/one-percent     	       6	  37467514 ns/op	56599653 B/op	    4111 allocs/op
+BenchmarkCompareUserList/users=50000/one-percent     	       6	  43193986 ns/op	56544997 B/op	    4050 allocs/op
+BenchmarkCompareUserList/users=50000/one-percent     	       5	  41911342 ns/op	56578806 B/op	    4088 allocs/op
+BenchmarkCompareUserList/users=50000/one-percent     	       6	  39071430 ns/op	56601744 B/op	    4114 allocs/op
+BenchmarkCompareUserList/users=50000/all             	       4	  53608167 ns/op	96971216 B/op	    6094 allocs/op
+BenchmarkCompareUserList/users=50000/all             	       4	  58247386 ns/op	96948592 B/op	    6069 allocs/op
+BenchmarkCompareUserList/users=50000/all             	       4	  60952719 ns/op	96975248 B/op	    6098 allocs/op
+BenchmarkCompareUserList/users=50000/all             	       4	  62735292 ns/op	96967856 B/op	    6090 allocs/op
+BenchmarkCompareUserList/users=50000/all             	       4	  60901948 ns/op	96979504 B/op	    6103 allocs/op
+PASS
+ok  	github.com/wyx2685/XrayR/service/controller	25.725s
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/rule
+cpu: Apple M3 Max
+BenchmarkRuleDetect/rules=1/hit=false         	 3854724	        62.57 ns/op	      24 B/op	       1 allocs/op
+BenchmarkRuleDetect/rules=1/hit=false         	 3875022	        61.37 ns/op	      24 B/op	       1 allocs/op
+BenchmarkRuleDetect/rules=1/hit=false         	 4034689	        62.63 ns/op	      24 B/op	       1 allocs/op
+BenchmarkRuleDetect/rules=1/hit=false         	 3936012	        62.00 ns/op	      24 B/op	       1 allocs/op
+BenchmarkRuleDetect/rules=1/hit=false         	 3950785	        60.78 ns/op	      24 B/op	       1 allocs/op
+BenchmarkRuleDetect/rules=1/hit=true          	  687284	       365.5 ns/op	     344 B/op	       8 allocs/op
+BenchmarkRuleDetect/rules=1/hit=true          	  686637	       369.1 ns/op	     344 B/op	       8 allocs/op
+BenchmarkRuleDetect/rules=1/hit=true          	  599312	       391.5 ns/op	     344 B/op	       8 allocs/op
+BenchmarkRuleDetect/rules=1/hit=true          	  595225	       363.1 ns/op	     344 B/op	       8 allocs/op
+BenchmarkRuleDetect/rules=1/hit=true          	  668965	       393.7 ns/op	     344 B/op	       8 allocs/op
+BenchmarkRuleDetect/rules=20/hit=false        	  252058	      1008 ns/op	     480 B/op	      20 allocs/op
+BenchmarkRuleDetect/rules=20/hit=false        	  283752	       961.0 ns/op	     480 B/op	      20 allocs/op
+BenchmarkRuleDetect/rules=20/hit=false        	  264000	       955.4 ns/op	     480 B/op	      20 allocs/op
+BenchmarkRuleDetect/rules=20/hit=false        	  252715	       974.3 ns/op	     480 B/op	      20 allocs/op
+BenchmarkRuleDetect/rules=20/hit=false        	  269940	       987.5 ns/op	     480 B/op	      20 allocs/op
+BenchmarkRuleDetect/rules=20/hit=true         	  168152	      1461 ns/op	     800 B/op	      27 allocs/op
+BenchmarkRuleDetect/rules=20/hit=true         	  170179	      1364 ns/op	     800 B/op	      27 allocs/op
+BenchmarkRuleDetect/rules=20/hit=true         	  182824	      1354 ns/op	     800 B/op	      27 allocs/op
+BenchmarkRuleDetect/rules=20/hit=true         	  182644	      1393 ns/op	     800 B/op	      27 allocs/op
+BenchmarkRuleDetect/rules=20/hit=true         	  171636	      1345 ns/op	     800 B/op	      27 allocs/op
+PASS
+ok  	github.com/wyx2685/XrayR/common/rule	5.743s

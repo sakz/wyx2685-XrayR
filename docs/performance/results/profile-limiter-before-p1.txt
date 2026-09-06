@@ -1,0 +1,6 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/limiter
+cpu: Apple M3 Max
+BenchmarkGetUserBucket/users=1000/tcp=true         	 2169361	       545.0 ns/op	     504 B/op	      14 allocs/op
+PASS

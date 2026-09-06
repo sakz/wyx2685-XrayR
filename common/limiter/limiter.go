@@ -183,14 +183,22 @@ func (l *Limiter) GetUserBucket(tag string, email string, ip string, isSourceTCP
 
 		// Local device limit, only for TCP connection
 		if isSourceTCP {
-			ipMap := new(sync.Map)
-			ipMap.Store(ip, uid)
+			v, loaded := inboundInfo.UserOnlineIP.Load(email)
+			if !loaded {
+				ipMap := new(sync.Map)
+				ipMap.Store(ip, uid)
+				v, loaded = inboundInfo.UserOnlineIP.LoadOrStore(email, ipMap)
+			}
 			aliveIp := inboundInfo.AliveList[uid]
 			// If any device is online
-			if v, ok := inboundInfo.UserOnlineIP.LoadOrStore(email, ipMap); ok {
+			if loaded {
 				ipMap := v.(*sync.Map)
 				// If this is a new ip
-				if _, ok := ipMap.LoadOrStore(ip, uid); !ok {
+				_, exists := ipMap.Load(ip)
+				if !exists {
+					_, exists = ipMap.LoadOrStore(ip, uid)
+				}
+				if !exists {
 					if deviceLimit > 0 {
 						if deviceLimit <= aliveIp {
 							ipMap.Delete(ip)
@@ -222,6 +230,9 @@ func (l *Limiter) GetUserBucket(tag string, email string, ip string, isSourceTCP
 		// Speed limit
 		limit := determineRate(nodeLimit, userLimit) // Determine the speed limit rate
 		if limit > 0 {
+			if v, ok := inboundInfo.BucketHub.Load(email); ok {
+				return v.(*rate.Limiter), true, false
+			}
 			limiter := rate.NewLimiter(rate.Limit(limit), int(limit)) // Byte/s
 			if v, ok := inboundInfo.BucketHub.LoadOrStore(email, limiter); ok {
 				bucket := v.(*rate.Limiter)

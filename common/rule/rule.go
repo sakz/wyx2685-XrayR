@@ -54,7 +54,7 @@ func (r *Manager) Detect(tag string, destination string, email string) (reject b
 	if value, ok := r.InboundRule.Load(tag); ok {
 		ruleList := value.([]api.DetectRule)
 		for _, r := range ruleList {
-			if r.Pattern.Match([]byte(destination)) {
+			if r.Pattern.MatchString(destination) {
 				hitRuleID = r.ID
 				reject = true
 				break
@@ -68,9 +68,13 @@ func (r *Manager) Detect(tag string, destination string, email string) (reject b
 				log.Debug(fmt.Sprintf("Record illegal behavior failed! Cannot find user's uid: %s", email))
 				return reject
 			}
-			newSet := mapset.NewSetWith(api.DetectResult{UID: uid, RuleID: hitRuleID})
+			v, loaded := r.InboundDetectResult.Load(tag)
+			if !loaded {
+				newSet := mapset.NewSetWith(api.DetectResult{UID: uid, RuleID: hitRuleID})
+				v, loaded = r.InboundDetectResult.LoadOrStore(tag, newSet)
+			}
 			// If there are any hit history
-			if v, ok := r.InboundDetectResult.LoadOrStore(tag, newSet); ok {
+			if loaded {
 				resultSet := v.(mapset.Set)
 				// If this is a new record
 				if resultSet.Add(api.DetectResult{UID: uid, RuleID: hitRuleID}) {

@@ -1,0 +1,6 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/service/controller
+cpu: Apple M3 Max
+BenchmarkCompareUserList/users=50000/unchanged         	      31	  37974356 ns/op	56262034 B/op	    4005 allocs/op
+PASS

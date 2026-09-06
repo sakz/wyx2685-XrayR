@@ -1,0 +1,30 @@
+?   	github.com/wyx2685/XrayR	[no test files]
+?   	github.com/wyx2685/XrayR/api	[no test files]
+?   	github.com/wyx2685/XrayR/app	[no test files]
+?   	github.com/wyx2685/XrayR/cmd	[no test files]
+?   	github.com/wyx2685/XrayR/cmd/distro/all	[no test files]
+?   	github.com/wyx2685/XrayR/common	[no test files]
+ok  	github.com/wyx2685/XrayR/api/bunpanel	1.376s [no tests to run]
+ok  	github.com/wyx2685/XrayR/api/gov2panel	1.692s [no tests to run]
+ok  	github.com/wyx2685/XrayR/api/newV2board	1.999s [no tests to run]
+ok  	github.com/wyx2685/XrayR/api/pmpanel	2.335s [no tests to run]
+ok  	github.com/wyx2685/XrayR/api/proxypanel	3.256s [no tests to run]
+ok  	github.com/wyx2685/XrayR/api/sspanel	2.943s [no tests to run]
+ok  	github.com/wyx2685/XrayR/api/v2raysocks	2.630s [no tests to run]
+ok  	github.com/wyx2685/XrayR/app/mydispatcher	3.906s
+?   	github.com/wyx2685/XrayR/common/serverstatus	[no test files]
+?   	github.com/wyx2685/XrayR/panel	[no test files]
+?   	github.com/wyx2685/XrayR/service	[no test files]
+ok  	github.com/wyx2685/XrayR/common/limiter	5.451s
+# github.com/wyx2685/XrayR/service/controller.test
+ld: warning: '/private/var/folders/01/mt6r32bj6450m8m13n0nktgr0000gn/T/go-link-2059017024/000024.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+ok  	github.com/wyx2685/XrayR/common/mylego	2.320s
+ok  	github.com/wyx2685/XrayR/common/rule	1.372s
+2026/09/06 22:14:07 [Warning] common/errors: This feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated and being migrated to XHTTP H2 & H3. Please update your config(s) according to release note and documentation before removal.
+2026/09/06 22:14:07 [Warning] common/errors: This feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated and being migrated to XHTTP H2 & H3. Please update your config(s) according to release note and documentation before removal.
+2026/09/06 22:14:07 [Warning] common/errors: This feature "host" in "headers" is deprecated and being migrated to independent "host". Please update your config(s) according to release note and documentation before removal.
+--- FAIL: TestBuildSS (0.00s)
+    inboundbuilder_test.go:96: infra/conf: unknown cipher method:
+FAIL
+FAIL	github.com/wyx2685/XrayR/service/controller	1.378s
+FAIL

@@ -1,0 +1,16 @@
+=== RUN   TestLimiterRetainedMemory
+=== RUN   TestLimiterRetainedMemory/100
+    limiter_test.go:198: users=100 configured_heap_delta=18712 active_heap_delta=59512 objects_configured=610 objects_active=1456 goroutine_delta=0 (includes fixture keys; not full core)
+=== RUN   TestLimiterRetainedMemory/1000
+    limiter_test.go:198: users=1000 configured_heap_delta=202272 active_heap_delta=626760 objects_configured=6018 objects_active=14507 goroutine_delta=0 (includes fixture keys; not full core)
+=== RUN   TestLimiterRetainedMemory/10000
+    limiter_test.go:198: users=10000 configured_heap_delta=1903136 active_heap_delta=6037656 objects_configured=60018 objects_active=145008 goroutine_delta=0 (includes fixture keys; not full core)
+=== RUN   TestLimiterRetainedMemory/50000
+    limiter_test.go:198: users=50000 configured_heap_delta=10465456 active_heap_delta=29546824 objects_configured=300844 objects_active=726574 goroutine_delta=-1 (includes fixture keys; not full core)
+--- PASS: TestLimiterRetainedMemory (0.22s)
+    --- PASS: TestLimiterRetainedMemory/100 (0.00s)
+    --- PASS: TestLimiterRetainedMemory/1000 (0.00s)
+    --- PASS: TestLimiterRetainedMemory/10000 (0.03s)
+    --- PASS: TestLimiterRetainedMemory/50000 (0.18s)
+PASS
+ok  	github.com/wyx2685/XrayR/common/limiter	0.610s

@@ -1,0 +1,116 @@
+=== RUN   TestDispatcherTrafficAndLimiter
+--- PASS: TestDispatcherTrafficAndLimiter (0.00s)
+=== RUN   TestDispatcherRetainedLinks
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+    performance_test.go:127: links=1000 heap_delta=1374104 heap_per_link=1374 object_delta=27923 goroutine_delta=0; getLink only, no socket/relay/TLS/payload
+--- PASS: TestDispatcherRetainedLinks (0.00s)
+=== RUN   TestDispatcherTrafficAndLimiter
+--- PASS: TestDispatcherTrafficAndLimiter (0.00s)
+=== RUN   TestDispatcherRetainedLinks
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+    performance_test.go:127: links=1000 heap_delta=1375592 heap_per_link=1375 object_delta=27940 goroutine_delta=0; getLink only, no socket/relay/TLS/payload
+--- PASS: TestDispatcherRetainedLinks (0.00s)
+=== RUN   TestDispatcherTrafficAndLimiter
+--- PASS: TestDispatcherTrafficAndLimiter (0.00s)
+=== RUN   TestDispatcherRetainedLinks
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+    performance_test.go:127: links=1000 heap_delta=1375592 heap_per_link=1375 object_delta=27940 goroutine_delta=0; getLink only, no socket/relay/TLS/payload
+--- PASS: TestDispatcherRetainedLinks (0.00s)
+=== RUN   TestDispatcherTrafficAndLimiter
+--- PASS: TestDispatcherTrafficAndLimiter (0.00s)
+=== RUN   TestDispatcherRetainedLinks
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+    performance_test.go:127: links=1000 heap_delta=1375592 heap_per_link=1375 object_delta=27940 goroutine_delta=0; getLink only, no socket/relay/TLS/payload
+--- PASS: TestDispatcherRetainedLinks (0.00s)
+=== RUN   TestDispatcherTrafficAndLimiter
+--- PASS: TestDispatcherTrafficAndLimiter (0.00s)
+=== RUN   TestDispatcherRetainedLinks
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+    performance_test.go:127: links=1000 heap_delta=1375592 heap_per_link=1375 object_delta=27940 goroutine_delta=0; getLink only, no socket/relay/TLS/payload
+--- PASS: TestDispatcherRetainedLinks (0.00s)
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/app/mydispatcher
+cpu: Apple M3 Max
+BenchmarkDispatcherGetLink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:13 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+BenchmarkDispatcherGetLink 	  276930	      2283 ns/op	    1592 B/op	      34 allocs/op
+2026/09/06 22:13:14 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:14 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:14 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:14 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:14 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:14 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:14 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:14 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+BenchmarkDispatcherGetLink 	  413796	      3411 ns/op	    1592 B/op	      34 allocs/op
+2026/09/06 22:13:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:15 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+BenchmarkDispatcherGetLink 	  280296	      7714 ns/op	    1592 B/op	      34 allocs/op
+2026/09/06 22:13:17 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:17 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:17 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:17 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:17 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:17 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:17 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:17 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:18 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:18 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+BenchmarkDispatcherGetLink 	  146215	      9676 ns/op	    1592 B/op	      34 allocs/op
+2026/09/06 22:13:19 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:19 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:19 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:19 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:19 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:19 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+2026/09/06 22:13:19 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>uplink
+2026/09/06 22:13:19 [Debug] app/stats: create new counter user>>>test|user@example.test|1000>>>traffic>>>downlink
+BenchmarkDispatcherGetLink 	  375052	     13261 ns/op	    1592 B/op	      34 allocs/op
+PASS
+ok  	github.com/wyx2685/XrayR/app/mydispatcher	11.435s
+=== RUN   TestBucketAllocationWorkload
+    limiter_test.go:219: operations=1000000 allocated_bytes=16080 allocations=1004 num_gc=0 gc_pause_ns=0
+--- PASS: TestBucketAllocationWorkload (1.55s)
+=== RUN   TestBucketAllocationWorkload
+    limiter_test.go:219: operations=1000000 allocated_bytes=16032 allocations=1002 num_gc=0 gc_pause_ns=0
+--- PASS: TestBucketAllocationWorkload (1.09s)
+=== RUN   TestBucketAllocationWorkload
+    limiter_test.go:219: operations=1000000 allocated_bytes=16032 allocations=1002 num_gc=0 gc_pause_ns=0
+--- PASS: TestBucketAllocationWorkload (0.67s)
+=== RUN   TestBucketAllocationWorkload
+    limiter_test.go:219: operations=1000000 allocated_bytes=16032 allocations=1002 num_gc=0 gc_pause_ns=0
+--- PASS: TestBucketAllocationWorkload (0.43s)
+=== RUN   TestBucketAllocationWorkload
+    limiter_test.go:219: operations=1000000 allocated_bytes=16032 allocations=1002 num_gc=0 gc_pause_ns=0
+--- PASS: TestBucketAllocationWorkload (0.67s)
+PASS
+ok  	github.com/wyx2685/XrayR/common/limiter	4.801s

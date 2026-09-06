@@ -1,0 +1,66 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/service/controller
+cpu: Apple M3 Max
+BenchmarkCompareUserList/users=100/unchanged         	  379543	       635.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=100/unchanged         	  376458	       642.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=100/unchanged         	  360129	       654.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=100/unchanged         	  376504	       643.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=100/unchanged         	  367236	       635.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=100/one-percent       	   10000	     23409 ns/op	   15474 B/op	       5 allocs/op
+BenchmarkCompareUserList/users=100/one-percent       	   10000	     23040 ns/op	   15467 B/op	       5 allocs/op
+BenchmarkCompareUserList/users=100/one-percent       	   10000	     23136 ns/op	   15483 B/op	       5 allocs/op
+BenchmarkCompareUserList/users=100/one-percent       	   10000	     23085 ns/op	   15487 B/op	       5 allocs/op
+BenchmarkCompareUserList/users=100/one-percent       	   10000	     23454 ns/op	   15492 B/op	       5 allocs/op
+BenchmarkCompareUserList/users=100/all               	    7299	     56198 ns/op	  110220 B/op	      24 allocs/op
+BenchmarkCompareUserList/users=100/all               	    6908	     55305 ns/op	  110179 B/op	      24 allocs/op
+BenchmarkCompareUserList/users=100/all               	    7563	     55858 ns/op	  110168 B/op	      24 allocs/op
+BenchmarkCompareUserList/users=100/all               	    8268	     55957 ns/op	  110203 B/op	      24 allocs/op
+BenchmarkCompareUserList/users=100/all               	    6891	     56173 ns/op	  110230 B/op	      24 allocs/op
+BenchmarkCompareUserList/users=1000/unchanged        	   36817	      6463 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=1000/unchanged        	   37303	      6484 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=1000/unchanged        	   36945	      6453 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=1000/unchanged        	   36982	      6447 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=1000/unchanged        	   37218	      6457 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=1000/one-percent      	     930	    236949 ns/op	  227928 B/op	      12 allocs/op
+BenchmarkCompareUserList/users=1000/one-percent      	     955	    235695 ns/op	  227928 B/op	      12 allocs/op
+BenchmarkCompareUserList/users=1000/one-percent      	     970	    238950 ns/op	  227928 B/op	      12 allocs/op
+BenchmarkCompareUserList/users=1000/one-percent      	     984	    238527 ns/op	  227928 B/op	      12 allocs/op
+BenchmarkCompareUserList/users=1000/one-percent      	     969	    240855 ns/op	  227928 B/op	      12 allocs/op
+BenchmarkCompareUserList/users=1000/all              	     400	    569983 ns/op	 1156295 B/op	      55 allocs/op
+BenchmarkCompareUserList/users=1000/all              	     414	    572403 ns/op	 1156103 B/op	      55 allocs/op
+BenchmarkCompareUserList/users=1000/all              	     404	    563854 ns/op	 1156336 B/op	      55 allocs/op
+BenchmarkCompareUserList/users=1000/all              	     408	    558680 ns/op	 1156099 B/op	      55 allocs/op
+BenchmarkCompareUserList/users=1000/all              	     406	    578493 ns/op	 1156393 B/op	      55 allocs/op
+BenchmarkCompareUserList/users=10000/unchanged       	    3597	     69716 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=10000/unchanged       	    3548	     67935 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=10000/unchanged       	    3607	     68876 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=10000/unchanged       	    3487	     68468 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=10000/unchanged       	    3418	     69418 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=10000/one-percent     	     100	   2402946 ns/op	 1794445 B/op	      20 allocs/op
+BenchmarkCompareUserList/users=10000/one-percent     	     100	   2376958 ns/op	 1794302 B/op	      19 allocs/op
+BenchmarkCompareUserList/users=10000/one-percent     	     100	   2413174 ns/op	 1795099 B/op	      20 allocs/op
+BenchmarkCompareUserList/users=10000/one-percent     	     100	   2333890 ns/op	 1794544 B/op	      20 allocs/op
+BenchmarkCompareUserList/users=10000/one-percent     	     100	   2438618 ns/op	 1793970 B/op	      19 allocs/op
+BenchmarkCompareUserList/users=10000/all             	      60	   6541102 ns/op	13973427 B/op	     332 allocs/op
+BenchmarkCompareUserList/users=10000/all             	      85	  11467443 ns/op	13975774 B/op	     335 allocs/op
+BenchmarkCompareUserList/users=10000/all             	      72	   6333682 ns/op	13975135 B/op	     334 allocs/op
+BenchmarkCompareUserList/users=10000/all             	      74	   6190202 ns/op	13974996 B/op	     334 allocs/op
+BenchmarkCompareUserList/users=10000/all             	      78	   6433021 ns/op	13978072 B/op	     338 allocs/op
+BenchmarkCompareUserList/users=50000/unchanged       	     670	    343174 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=50000/unchanged       	     705	    327706 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=50000/unchanged       	     720	    356686 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=50000/unchanged       	     692	    342447 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=50000/unchanged       	     721	    340365 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompareUserList/users=50000/one-percent     	      15	  14055456 ns/op	 7940747 B/op	     895 allocs/op
+BenchmarkCompareUserList/users=50000/one-percent     	      16	  13136961 ns/op	 7946560 B/op	     901 allocs/op
+BenchmarkCompareUserList/users=50000/one-percent     	      18	  13966326 ns/op	 7957442 B/op	     913 allocs/op
+BenchmarkCompareUserList/users=50000/one-percent     	      15	  14212472 ns/op	 7952395 B/op	     908 allocs/op
+BenchmarkCompareUserList/users=50000/one-percent     	      16	  14592201 ns/op	 7943984 B/op	     898 allocs/op
+BenchmarkCompareUserList/users=50000/all             	       6	  36646868 ns/op	73409282 B/op	    2928 allocs/op
+BenchmarkCompareUserList/users=50000/all             	       6	  36053438 ns/op	73389421 B/op	    2906 allocs/op
+BenchmarkCompareUserList/users=50000/all             	       6	  39381083 ns/op	73390317 B/op	    2907 allocs/op
+BenchmarkCompareUserList/users=50000/all             	       6	  37001847 ns/op	73392557 B/op	    2909 allocs/op
+BenchmarkCompareUserList/users=50000/all             	       6	  36170570 ns/op	73399128 B/op	    2917 allocs/op
+PASS
+ok  	github.com/wyx2685/XrayR/service/controller	21.132s

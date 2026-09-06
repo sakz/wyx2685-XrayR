@@ -1,0 +1,56 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/wyx2685/XrayR/common/limiter
+cpu: Apple M3 Max
+BenchmarkGetUserBucket/users=100/tcp=true         	 2085192	       107.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=true         	 2293441	       109.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=true         	 2220206	       107.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=true         	 2212202	       107.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=true         	 2280493	       104.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=false        	 3640778	        66.78 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=false        	 3592114	        64.19 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=false        	 3629008	        64.08 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=false        	 3780264	        63.92 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=100/tcp=false        	 3685580	        66.07 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=true        	 2046568	       115.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=true        	 2124062	       125.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=true        	 2054157	       115.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=true        	 2085530	       114.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=true        	 2066698	       115.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=false       	 3680595	        65.97 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=false       	 3579248	        66.75 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=false       	 3551630	        65.59 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=false       	 3579271	        66.96 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=1000/tcp=false       	 3560485	        67.09 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=true       	 1898451	       126.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=true       	 1780135	       132.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=true       	 1911394	       133.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=true       	 1908742	       126.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=true       	 1889781	       127.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=false      	 3080617	        75.75 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=false      	 3151761	        75.15 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=false      	 3168351	        75.29 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=false      	 3258858	        74.14 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=10000/tcp=false      	 3171348	        76.78 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=true       	 1358188	       179.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=true       	 1252396	       182.3 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=true       	 1419357	       174.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=true       	 1387666	       171.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=true       	 1333634	       175.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=false      	 2637501	        88.23 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=false      	 2616727	        95.69 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=false      	 2613615	        92.00 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=false      	 2519918	        90.41 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGetUserBucket/users=50000/tcp=false      	 2599335	        90.09 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBucketFirstConnection                    	  239205	      1014 ns/op	    1104 B/op	      24 allocs/op
+BenchmarkBucketFirstConnection                    	  238023	       937.0 ns/op	    1104 B/op	      24 allocs/op
+BenchmarkBucketFirstConnection                    	  248929	       996.9 ns/op	    1104 B/op	      24 allocs/op
+BenchmarkBucketFirstConnection                    	  260029	      1012 ns/op	    1104 B/op	      24 allocs/op
+BenchmarkBucketFirstConnection                    	  231692	      1061 ns/op	    1104 B/op	      24 allocs/op
+BenchmarkBucketParallel                           	 3432626	        67.36 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBucketParallel                           	 3600697	        65.60 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBucketParallel                           	 3616586	        66.15 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBucketParallel                           	 3606186	        66.13 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBucketParallel                           	 3590706	        66.06 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/wyx2685/XrayR/common/limiter	21.862s

@@ -1,0 +1,4 @@
+# github.com/wyx2685/XrayR/api/pmpanel_test
+# [github.com/wyx2685/XrayR/api/pmpanel_test]
+api/pmpanel/pmpanel_test.go:153:3: github.com/wyx2685/XrayR/api.DetectResult struct literal uses unkeyed fields
+api/pmpanel/pmpanel_test.go:154:3: github.com/wyx2685/XrayR/api.DetectResult struct literal uses unkeyed fields

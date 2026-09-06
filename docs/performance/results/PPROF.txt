@@ -1,0 +1,166 @@
+
+limiter-before-p1.cpu
+File: limiter-before.test
+Type: cpu
+Time: Sep 6, 2026 at 10:19pm (CST)
+Duration: 1.94s, Total samples = 1600ms (82.66%)
+Showing nodes accounting for 1310ms, 81.88% of 1600ms total
+Showing top 10 nodes out of 107
+      flat  flat%   sum%        cum   cum%
+     860ms 53.75% 53.75%      860ms 53.75%  runtime.kevent
+     160ms 10.00% 63.75%      420ms 26.25%  runtime.mallocgc
+      60ms  3.75% 67.50%       80ms  5.00%  runtime.mapaccess2
+      40ms  2.50% 70.00%       50ms  3.12%  runtime.(*mspan).writeHeapBitsSmall
+      40ms  2.50% 72.50%       40ms  2.50%  runtime.madvise
+      40ms  2.50% 75.00%       40ms  2.50%  runtime.memclrNoHeapPointers
+      30ms  1.88% 76.88%       30ms  1.88%  aeshashbody
+      30ms  1.88% 78.75%      640ms 40.00%  github.com/wyx2685/XrayR/common/limiter.(*Limiter).GetUserBucket
+      30ms  1.88% 80.62%       30ms  1.88%  runtime.markBits.setMarked (inline)
+      20ms  1.25% 81.88%      100ms  6.25%  runtime.deductAssistCredit
+
+limiter-before-p1.heap
+File: limiter-before.test
+Type: alloc_space
+Time: Sep 6, 2026 at 10:19pm (CST)
+Showing nodes accounting for 1523.15MB, 99.53% of 1530.39MB total
+Dropped 47 nodes (cum <= 7.65MB)
+      flat  flat%   sum%        cum   cum%
+  746.12MB 48.75% 48.75%   930.13MB 60.78%  sync.(*Map).Swap
+  342.51MB 22.38% 71.13%  1525.18MB 99.66%  github.com/wyx2685/XrayR/common/limiter.(*Limiter).GetUserBucket
+  250.52MB 16.37% 87.50%   250.52MB 16.37%  golang.org/x/time/rate.NewLimiter (inline)
+  155.51MB 10.16% 97.66%   155.51MB 10.16%  sync.(*Map).dirtyLocked
+   28.50MB  1.86% 99.53%    28.50MB  1.86%  sync.newEntry (inline)
+         0     0% 99.53%  1527.73MB 99.83%  github.com/wyx2685/XrayR/common/limiter.BenchmarkGetUserBucket.func1
+         0     0% 99.53%   930.13MB 60.78%  sync.(*Map).Store (inline)
+         0     0% 99.53%  1525.65MB 99.69%  testing.(*B).launch
+         0     0% 99.53%  1527.73MB 99.83%  testing.(*B).runN
+
+diff-before-p1.heap
+File: diff-before.test
+Type: alloc_space
+Time: Sep 6, 2026 at 10:19pm (CST)
+Showing nodes accounting for 2.81GB, 98.99% of 2.84GB total
+Dropped 102 nodes (cum <= 0.01GB)
+      flat  flat%   sum%        cum   cum%
+    2.78GB 98.01% 98.01%     2.78GB 98.01%  github.com/wyx2685/XrayR/service/controller.compareUserList
+    0.03GB  0.98% 98.99%     2.81GB 99.18%  github.com/wyx2685/XrayR/service/controller.BenchmarkCompareUserList.func1
+         0     0% 98.99%     0.02GB  0.78%  runtime.doInit (inline)
+         0     0% 98.99%     0.02GB  0.78%  runtime.doInit1
+         0     0% 98.99%     0.02GB  0.78%  runtime.main
+         0     0% 98.99%     2.75GB 97.05%  testing.(*B).launch
+         0     0% 98.99%     0.06GB  2.13%  testing.(*B).run1.func1
+         0     0% 98.99%     2.81GB 99.18%  testing.(*B).runN
+
+limiter-before-p2.mutex
+File: limiter-before.test
+Type: delay
+Time: Sep 6, 2026 at 10:19pm (CST)
+Showing nodes accounting for 47.03ms, 100% of 47.03ms total
+      flat  flat%   sum%        cum   cum%
+   47.03ms   100%   100%    47.03ms   100%  runtime._LostContendedRuntimeLock
+
+limiter-before-p2.block
+File: limiter-before.test
+Type: delay
+Time: Sep 6, 2026 at 10:19pm (CST)
+Showing nodes accounting for 3890.60ms, 100% of 3890.60ms total
+Dropped 5 nodes (cum <= 19.45ms)
+Showing top 10 nodes out of 25
+      flat  flat%   sum%        cum   cum%
+ 2496.32ms 64.16% 64.16%  2496.32ms 64.16%  runtime.chanrecv1
+ 1394.28ms 35.84%   100%  1394.28ms 35.84%  sync.(*WaitGroup).Wait
+         0     0%   100%  1394.28ms 35.84%  github.com/wyx2685/XrayR/common/limiter.BenchmarkBucketParallel
+         0     0%   100%  1520.42ms 39.08%  main.main
+         0     0%   100%  1520.42ms 39.08%  runtime.main
+         0     0%   100%   975.90ms 25.08%  runtime.unique_runtime_registerUniqueMapCleanup.func1
+         0     0%   100%   123.40ms  3.17%  runtime/pprof.StopCPUProfile
+         0     0%   100%   123.40ms  3.17%  sync.(*Once).Do (inline)
+         0     0%   100%   123.40ms  3.17%  sync.(*Once).doSlow
+         0     0%   100%  1397.01ms 35.91%  testing.(*B).Run
+
+limiter-after-p1.cpu
+File: limiter-after.test
+Type: cpu
+Time: Sep 6, 2026 at 10:19pm (CST)
+Duration: 1.48s, Total samples = 1170ms (79.15%)
+Showing nodes accounting for 1060ms, 90.60% of 1170ms total
+Showing top 10 nodes out of 34
+      flat  flat%   sum%        cum   cum%
+     630ms 53.85% 53.85%      960ms 82.05%  runtime.mapaccess2
+     110ms  9.40% 63.25%      110ms  9.40%  aeshashbody
+      80ms  6.84% 70.09%     1150ms 98.29%  github.com/wyx2685/XrayR/common/limiter.(*Limiter).GetUserBucket
+      60ms  5.13% 75.21%     1070ms 91.45%  sync.(*Map).Load
+      40ms  3.42% 78.63%      150ms 12.82%  runtime.nilinterequal
+      30ms  2.56% 81.20%      110ms  9.40%  runtime.efaceeq
+      30ms  2.56% 83.76%       30ms  2.56%  runtime.memequal
+      30ms  2.56% 86.32%       80ms  6.84%  runtime.strequal
+      30ms  2.56% 88.89%      140ms 11.97%  runtime.typehash
+      20ms  1.71% 90.60%       20ms  1.71%  memeqbody
+
+limiter-after-p1.heap
+File: limiter-after.test
+Type: alloc_space
+Time: Sep 6, 2026 at 10:19pm (CST)
+Showing nodes accounting for 9079kB, 100% of 9079kB total
+Showing top 10 nodes out of 46
+      flat  flat%   sum%        cum   cum%
+ 2076.72kB 22.87% 22.87%  2588.74kB 28.51%  sync.(*Map).Swap
+ 1684.50kB 18.55% 41.43%  2225.01kB 24.51%  github.com/wyx2685/XrayR/common/limiter.testLimiter
+ 1572.53kB 17.32% 58.75%  1572.53kB 17.32%  sync.(*Map).LoadOrStore
+ 1184.27kB 13.04% 71.79%  1184.27kB 13.04%  runtime/pprof.StartCPUProfile
+  512.69kB  5.65% 77.44%   512.69kB  5.65%  regexp/syntax.(*compiler).inst (inline)
+  512.19kB  5.64% 83.08%   512.19kB  5.64%  google.golang.org/protobuf/internal/filedesc.(*Message).unmarshalFull
+  512.07kB  5.64% 88.72%   512.07kB  5.64%  google.golang.org/protobuf/internal/impl.fieldInfoForScalar
+  512.02kB  5.64% 94.36%   512.02kB  5.64%  sync.(*Map).dirtyLocked
+  512.01kB  5.64%   100%   512.01kB  5.64%  sync.(*Map).missLocked
+         0     0%   100%   512.69kB  5.65%  github.com/prometheus/procfs.init
+
+diff-after-p1.heap
+File: diff-after.test
+Type: alloc_space
+Time: Sep 6, 2026 at 10:19pm (CST)
+Showing nodes accounting for 55.25MB, 87.96% of 62.81MB total
+Showing top 10 nodes out of 106
+      flat  flat%   sum%        cum   cum%
+   29.47MB 46.92% 46.92%    33.97MB 54.08%  github.com/wyx2685/XrayR/service/controller.BenchmarkCompareUserList.func1
+    7.05MB 11.22% 58.14%     7.05MB 11.22%  github.com/goccy/go-json/internal/decoder.init.0
+    4.50MB  7.16% 65.30%     4.50MB  7.16%  fmt.Sprintf
+    3.53MB  5.61% 70.92%     3.53MB  5.61%  github.com/goccy/go-json/internal/encoder.init.0
+    2.54MB  4.04% 74.96%     2.54MB  4.04%  regexp/syntax.(*compiler).inst
+       2MB  3.18% 78.15%        2MB  3.18%  regexp/syntax.(*parser).newRegexp
+    1.78MB  2.84% 80.98%     1.78MB  2.84%  github.com/Shopify/goreferrer.extractRules
+    1.72MB  2.74% 83.72%     1.72MB  2.74%  runtime/pprof.StartCPUProfile
+    1.50MB  2.39% 86.11%     3.15MB  5.02%  google.golang.org/protobuf/internal/filedesc.newRawFile
+    1.16MB  1.84% 87.96%     1.16MB  1.84%  google.golang.org/protobuf/reflect/protoregistry.(*Files).RegisterFile.func2
+
+limiter-after-p2.mutex
+File: limiter-after.test
+Type: delay
+Time: Sep 6, 2026 at 10:19pm (CST)
+Showing nodes accounting for 172.87us, 100% of 172.87us total
+      flat  flat%   sum%        cum   cum%
+  163.87us 94.79% 94.79%   163.87us 94.79%  runtime._LostContendedRuntimeLock
+       9us  5.21%   100%        9us  5.21%  sync.(*Mutex).Unlock (inline)
+         0     0%   100%        9us  5.21%  github.com/wyx2685/XrayR/common/limiter.(*Limiter).GetUserBucket
+         0     0%   100%        9us  5.21%  github.com/wyx2685/XrayR/common/limiter.BenchmarkBucketParallel.func1
+         0     0%   100%        9us  5.21%  sync.(*Map).Load
+         0     0%   100%        9us  5.21%  testing.(*B).RunParallel.func1
+
+limiter-after-p2.block
+File: limiter-after.test
+Type: delay
+Time: Sep 6, 2026 at 10:19pm (CST)
+Showing nodes accounting for 3694.12ms, 100% of 3694.14ms total
+Dropped 10 nodes (cum <= 18.47ms)
+Showing top 10 nodes out of 25
+      flat  flat%   sum%        cum   cum%
+ 2532.18ms 68.55% 68.55%  2532.18ms 68.55%  runtime.chanrecv1
+ 1161.94ms 31.45%   100%  1161.94ms 31.45%  sync.(*WaitGroup).Wait
+         0     0%   100%  1161.94ms 31.45%  github.com/wyx2685/XrayR/common/limiter.BenchmarkBucketParallel
+         0     0%   100%  1265.88ms 34.27%  main.main
+         0     0%   100%  1265.88ms 34.27%  runtime.main
+         0     0%   100%  1266.30ms 34.28%  runtime.unique_runtime_registerUniqueMapCleanup.func1
+         0     0%   100%   101.38ms  2.74%  runtime/pprof.StopCPUProfile
+         0     0%   100%   101.38ms  2.74%  sync.(*Once).Do (inline)
+         0     0%   100%   101.38ms  2.74%  sync.(*Once).doSlow
+         0     0%   100%  1164.50ms 31.52%  testing.(*B).Run

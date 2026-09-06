@@ -1,0 +1,6 @@
+ok  	github.com/wyx2685/XrayR/common/limiter	2.793s
+ok  	github.com/wyx2685/XrayR/common/rule	1.384s
+ok  	github.com/wyx2685/XrayR/app/mydispatcher	2.070s
+# github.com/wyx2685/XrayR/service/controller.test
+ld: warning: '/private/var/folders/01/mt6r32bj6450m8m13n0nktgr0000gn/T/go-link-301583687/000024.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+ok  	github.com/wyx2685/XrayR/service/controller	2.391s
