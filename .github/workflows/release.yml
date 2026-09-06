@@ -20,9 +20,14 @@ on:
   release:
     types: [ published ]
 
+permissions:
+  contents: read
+
 jobs:
 
   build:
+    permissions:
+      contents: write
     strategy:
       matrix:
         # Include amd64 on all platforms.
@@ -99,7 +104,7 @@ jobs:
       CGO_ENABLED: 0
     steps:
       - name: Checkout codebase
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Show workflow information
         id: get_filename
         run: |
@@ -109,9 +114,9 @@ jobs:
           echo "ASSET_NAME=$_NAME" >> $GITHUB_ENV
 
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
-          go-version: '^1.21'
+          go-version-file: go.mod
 
       - name: Get project dependencies
         run: go mod download
@@ -153,7 +158,7 @@ jobs:
               DOWNLOAD_URL="https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/${i}.dat"
               FILE_NAME="${i}.dat"
               echo -e "Downloading ${DOWNLOAD_URL}..."
-              curl -L "${DOWNLOAD_URL}" -o ./build_assets/${FILE_NAME}
+              curl -fL --retry 3 "${DOWNLOAD_URL}" -o ./build_assets/${FILE_NAME}
             done
       - name: Create ZIP archive
         shell: bash
@@ -176,7 +181,8 @@ jobs:
         with:
           name: XrayR-${{ steps.get_filename.outputs.ASSET_NAME }}
           path: |
-            ./XrayR-${{ steps.get_filename.outputs.ASSET_NAME }}/*
+            ./XrayR-${{ steps.get_filename.outputs.ASSET_NAME }}.zip
+            ./XrayR-${{ steps.get_filename.outputs.ASSET_NAME }}.zip.dgst
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         if: github.event_name == 'release'
