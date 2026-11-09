@@ -2,13 +2,13 @@
 
 ## 本地微基准
 
-本次使用 Go 1.23.1 / darwin arm64 / Apple M3 Max，基准 GOMAXPROCS=1。不要并行运行编译、race 和计时基准；先编译测试二进制，再交替执行 before/after。结果取 5 次中位数，没有生产负载置信区间。
+本轮基准在 Go 1.23.1 / darwin arm64 / Apple M3 Max 上记录，基准 GOMAXPROCS=1。go.mod 现已升级到 Go 1.27.1，下列命令按当前发布工具链执行，重跑的绝对数值会与记录不同。不要并行运行编译、race 和计时基准；先编译测试二进制，再交替执行 before/after。结果取 5 次中位数，没有生产负载置信区间。
 
 ```sh
-GOTOOLCHAIN=go1.23.1 GOMAXPROCS=1 go test ./common/limiter ./common/rule ./service/controller -run '^$' -bench=. -benchmem -benchtime=200ms -count=5
-GOTOOLCHAIN=go1.23.1 GOMAXPROCS=1 go test ./app/mydispatcher -run '^$' -bench=BenchmarkDispatcherGetLink -benchmem -count=5
-GOTOOLCHAIN=go1.23.1 go test -race ./common/limiter ./common/rule ./app/mydispatcher ./service/controller -run '^Test(Bucket|Rule|Dispatcher|UserDiff)' -count=1
-GOTOOLCHAIN=go1.23.1 go vet ./common/limiter ./common/rule ./app/mydispatcher ./service/controller
+GOTOOLCHAIN=go1.27.1 GOMAXPROCS=1 go test ./common/limiter ./common/rule ./service/controller -run '^$' -bench=. -benchmem -benchtime=200ms -count=5
+GOTOOLCHAIN=go1.27.1 GOMAXPROCS=1 go test ./app/mydispatcher -run '^$' -bench=BenchmarkDispatcherGetLink -benchmem -count=5
+GOTOOLCHAIN=go1.27.1 go test -race ./common/limiter ./common/rule ./app/mydispatcher ./service/controller -run '^Test(Bucket|Rule|Dispatcher|UserDiff)' -count=1
+GOTOOLCHAIN=go1.27.1 go vet ./common/limiter ./common/rule ./app/mydispatcher ./service/controller
 ```
 
 `BenchmarkBucketFirstConnection` 包括删除两张 map 项，以便下一轮重新首次创建，不能将其 ns/op 当纯建连时间。`BenchmarkBucketParallel` 用同一用户/IP 制造竞争；需 `GOMAXPROCS=2` 或更多 CPU 才是实际并行测量。用户 diff 的字段完全一致、逆序、1% 变更、100% 变更各自测试，不把相同顺序的快路径当所有 diff 的结果。
@@ -25,8 +25,8 @@ before 来自提交 `0bb4713626128849da0d2437defea1a1322c44cc`；测试文件使
 固定操作量 GC 与存活堆：
 
 ```sh
-GOTOOLCHAIN=go1.23.1 GOMAXPROCS=1 go test ./common/limiter -run '^Test(BucketAllocationWorkload|LimiterRetainedMemory)$' -v -count=1
-GOTOOLCHAIN=go1.23.1 GOMAXPROCS=1 go test ./app/mydispatcher -run '^TestDispatcherRetainedLinks$' -v -count=1
+GOTOOLCHAIN=go1.27.1 GOMAXPROCS=1 go test ./common/limiter -run '^Test(BucketAllocationWorkload|LimiterRetainedMemory)$' -v -count=1
+GOTOOLCHAIN=go1.27.1 GOMAXPROCS=1 go test ./app/mydispatcher -run '^TestDispatcherRetainedLinks$' -v -count=1
 ```
 
 用户状态的 heap delta 包含 fixture key，未包含 Panel 列表和 Xray 认证状态。getLink 留存实验只创建 pipe/wrapper，不创建 socket/握手/dispatch goroutine；该内存不是完整 active connection 成本。
@@ -34,12 +34,12 @@ GOTOOLCHAIN=go1.23.1 GOMAXPROCS=1 go test ./app/mydispatcher -run '^TestDispatch
 Profile 示例（输出到工作区外）：
 
 ```sh
-GOTOOLCHAIN=go1.23.1 GOMAXPROCS=1 go test ./common/limiter -run '^$' -bench '^BenchmarkGetUserBucket$/^users=1000$/^tcp=true$' -benchtime=2s -cpuprofile=/tmp/limiter.cpu -memprofile=/tmp/limiter.heap -o /tmp/limiter.test
-GOTOOLCHAIN=go1.23.1 go tool pprof -top /tmp/limiter.cpu
-GOTOOLCHAIN=go1.23.1 go tool pprof -top -alloc_space /tmp/limiter.heap
-GOTOOLCHAIN=go1.23.1 GOMAXPROCS=2 go test ./common/limiter -run '^$' -bench '^BenchmarkBucketParallel$' -benchtime=2s -mutexprofile=/tmp/limiter.mutex -blockprofile=/tmp/limiter.block -o /tmp/limiter.test
-GOTOOLCHAIN=go1.23.1 go tool pprof -top /tmp/limiter.mutex
-GOTOOLCHAIN=go1.23.1 go tool pprof -top /tmp/limiter.block
+GOTOOLCHAIN=go1.27.1 GOMAXPROCS=1 go test ./common/limiter -run '^$' -bench '^BenchmarkGetUserBucket$/^users=1000$/^tcp=true$' -benchtime=2s -cpuprofile=/tmp/limiter.cpu -memprofile=/tmp/limiter.heap -o /tmp/limiter.test
+GOTOOLCHAIN=go1.27.1 go tool pprof -top /tmp/limiter.cpu
+GOTOOLCHAIN=go1.27.1 go tool pprof -top -alloc_space /tmp/limiter.heap
+GOTOOLCHAIN=go1.27.1 GOMAXPROCS=2 go test ./common/limiter -run '^$' -bench '^BenchmarkBucketParallel$' -benchtime=2s -mutexprofile=/tmp/limiter.mutex -blockprofile=/tmp/limiter.block -o /tmp/limiter.test
+GOTOOLCHAIN=go1.27.1 go tool pprof -top /tmp/limiter.mutex
+GOTOOLCHAIN=go1.27.1 go tool pprof -top /tmp/limiter.block
 ```
 
 微基准 profile 包括初始化/校准，所以 after 无每次分配不代表整个 profile 没有分配。不要跨不同操作次数比较 profile 的累计 MB 来计算收益。CPU profile 中 macOS kevent 采样不能外推 Linux syscall CPU。
@@ -49,15 +49,15 @@ GOTOOLCHAIN=go1.23.1 go tool pprof -top /tmp/limiter.block
 API 的原有测试连接 localhost Panel 并会 POST 流量/在线数据；TestController 会等待操作系统信号；LegoDNSCert/HTTPCert/RenewCert 使用真实 ACME。未提供对应服务和证书环境，不能声称原样 `go test ./...` 的全部外部测试已运行通过。本次未改这些测试来隐藏问题，执行的是显式跳过外部集成测试的全包检查：
 
 ```sh
-GOTOOLCHAIN=go1.23.1 go test ./... -skip '^Test(Get|Report|Controller$|LegoDNSCert$|LegoHTTPCert$|LegoRenewCert$)' -timeout=60s -count=1
-GOTOOLCHAIN=go1.23.1 go test -race ./... -skip '^Test(Get|Report|Controller$|LegoDNSCert$|LegoHTTPCert$|LegoRenewCert$)' -timeout=60s -count=1
-GOTOOLCHAIN=go1.23.1 go vet ./...
+GOTOOLCHAIN=go1.27.1 go test ./... -skip '^Test(Get|Report|Controller$|LegoDNSCert$|LegoHTTPCert$|LegoRenewCert$)' -timeout=60s -count=1
+GOTOOLCHAIN=go1.27.1 go test -race ./... -skip '^Test(Get|Report|Controller$|LegoDNSCert$|LegoHTTPCert$|LegoRenewCert$)' -timeout=60s -count=1
+GOTOOLCHAIN=go1.27.1 go vet ./...
 ```
 
 剩余原有失败：TestBuildSS 的 CypherMethod 为空；vet 的 PMPanel 测试 DetectResult 无字段名构造。staticcheck 2024.1.1 也报告原有问题，完整日志在 results 中。Linux 交叉构建命令：
 
 ```sh
-GOTOOLCHAIN=go1.23.1 GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags='-s -w -buildid=' -o /tmp/XrayR-linux-amd64 .
+GOTOOLCHAIN=go1.27.1 GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags='-s -w -buildid=' -o /tmp/XrayR-linux-amd64 .
 ```
 
 ## Linux Profile A/B/C 下一步实测
