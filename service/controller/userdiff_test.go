@@ -89,6 +89,31 @@ func TestUserDiffCompatibility(t *testing.T) {
 	}
 }
 
+func TestSplitDeletedUsers(t *testing.T) {
+	c := &Controller{Tag: "node_0.0.0.0_443"}
+	deleted := []api.UserInfo{
+		{UID: 1, Email: "gone@example.test"},
+		// Same tag as the re-added entry: only an attribute changed.
+		{UID: 2, Email: "respeed@example.test", SpeedLimit: 100},
+	}
+	added := []api.UserInfo{
+		{UID: 2, Email: "respeed@example.test", SpeedLimit: 200},
+	}
+
+	gone, emails := c.splitDeletedUsers(deleted, added)
+	if len(gone) != 1 || gone[0].UID != 1 {
+		t.Fatalf("only the truly removed user must be gone, got %v", gone)
+	}
+	if len(emails) != 1 || emails[0] != "node_0.0.0.0_443|gone@example.test|1" {
+		t.Fatalf("unexpected gone emails: %v", emails)
+	}
+
+	gone, emails = c.splitDeletedUsers(deleted, nil)
+	if len(gone) != 2 || len(emails) != 2 {
+		t.Fatalf("without added users everything stays deleted, got %v", emails)
+	}
+}
+
 var diffDeleted, diffAdded []api.UserInfo
 
 func BenchmarkCompareUserList(b *testing.B) {

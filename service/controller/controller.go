@@ -262,10 +262,13 @@ func (c *Controller) nodeInfoMonitor() (err error) {
 				return nil
 			}
 			nodeInfoChanged = true
-			// Remove Old limiter
-			if err = c.DeleteInboundLimiter(oldTag); err != nil {
-				c.logger.Print(err)
-				return nil
+			// Remove Old limiter. An attribute-only node update keeps the same
+			// tag, so its counters still belong to the live inbound.
+			if oldTag != c.Tag {
+				if err = c.DeleteInboundLimiter(oldTag); err != nil {
+					c.logger.Print(err)
+					return nil
+				}
 			}
 		} else {
 			nodeInfoChanged = false
@@ -304,12 +307,22 @@ func (c *Controller) nodeInfoMonitor() (err error) {
 			deleted, added = compareUserList(c.userList, newUserInfo)
 			if len(deleted) > 0 {
 				deletedEmail := make([]string, len(deleted))
-				for i, u := range deleted {
-					deletedEmail[i] = fmt.Sprintf("%s|%s|%d", c.Tag, u.Email, u.UID)
+				for i := range deleted {
+					deletedEmail[i] = c.buildUserTag(&deleted[i])
 				}
 				err := c.removeUsers(deletedEmail, c.Tag)
 				if err != nil {
 					c.logger.Print(err)
+				}
+				// Attribute changes surface as delete+add under the same user tag.
+				// Only drop state for users that are really gone, otherwise live
+				// connections keep writing to counters nobody reports anymore.
+				gone, goneEmail := c.splitDeletedUsers(deleted, added)
+				if len(gone) > 0 {
+					if err := c.DeleteUserLimiter(c.Tag, &gone); err != nil {
+						c.logger.Print(err)
+					}
+					c.dispatcher.RemoveUserCounters(goneEmail)
 				}
 			}
 			if len(added) > 0 {
@@ -481,6 +494,26 @@ func compareUserList(old, new *[]api.UserInfo) (deleted, added []api.UserInfo) {
 	return deleted, added
 }
 
+// splitDeletedUsers separates users that are truly gone from users that only
+// had an attribute (speed limit, device limit, credential) changed: the latter
+// reappear in added with the same composite tag, and their live connections
+// still write to the existing counter.
+func (c *Controller) splitDeletedUsers(deleted, added []api.UserInfo) (gone []api.UserInfo, goneEmail []string) {
+	addedTags := make(map[string]struct{}, len(added))
+	for i := range added {
+		addedTags[c.buildUserTag(&added[i])] = struct{}{}
+	}
+	for i := range deleted {
+		email := c.buildUserTag(&deleted[i])
+		if _, ok := addedTags[email]; ok {
+			continue
+		}
+		gone = append(gone, deleted[i])
+		goneEmail = append(goneEmail, email)
+	}
+	return gone, goneEmail
+}
+
 func limitUser(c *Controller, user api.UserInfo, silentUsers *[]api.UserInfo) {
 	c.limitedUsers[user] = LimitInfo{
 		end:               time.Now().Unix() + int64(c.config.AutoSpeedLimitConfig.LimitDuration*60),
@@ -535,6 +568,7 @@ func (c *Controller) userInfoMonitor() (err error) {
 	}
 
 	// Get User traffic
+	// upCounterList/downCounterList stay index-aligned with userTraffic.
 	var userTraffic []api.UserTraffic
 	var upCounterList []stats.Counter
 	var downCounterList []stats.Counter
@@ -568,12 +602,8 @@ func (c *Controller) userInfoMonitor() (err error) {
 				Upload:   up,
 				Download: down})
 
-			if upCounter != nil {
-				upCounterList = append(upCounterList, upCounter)
-			}
-			if downCounter != nil {
-				downCounterList = append(downCounterList, downCounter)
-			}
+			upCounterList = append(upCounterList, upCounter)
+			downCounterList = append(downCounterList, downCounter)
 		} else {
 			delete(c.warnedUsers, user)
 		}
@@ -589,11 +619,11 @@ func (c *Controller) userInfoMonitor() (err error) {
 		if !c.config.DisableUploadTraffic {
 			err = c.apiClient.ReportUserTraffic(&userTraffic)
 		}
-		// If report traffic error, not clear the traffic
+		// If report traffic error, keep counters so the next round reports again
 		if err != nil {
 			c.logger.Print(err)
 		} else {
-			c.resetTraffic(&upCounterList, &downCounterList)
+			c.deductTraffic(&userTraffic, &upCounterList, &downCounterList)
 		}
 	}
 

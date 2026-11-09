@@ -231,12 +231,21 @@ func (c *APIClient) GetUserList() (UserList *[]api.UserInfo, err error) {
 		c.eTags["users"] = res.Header().Get("Etag")
 	}
 
-	usersResp, err := c.parseResponse(res, path, err)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("request %s failed: %v", c.assembleURL(path), err)
 	}
-	b, _ := usersResp.Get("users").Encode()
-	json.Unmarshal(b, &users)
+	if res.StatusCode() > 399 {
+		return nil, fmt.Errorf("request %s failed: %s, %v", c.assembleURL(path), res.String(), err)
+	}
+	// Single typed decode of the user list; the old path parsed the body into
+	// simplejson, re-encoded the users array and decoded it a second time.
+	var usersResp struct {
+		Users []*user `json:"users"`
+	}
+	if err := json.Unmarshal(res.Body(), &usersResp); err != nil {
+		return nil, fmt.Errorf("ret %s invalid", res.String())
+	}
+	users = usersResp.Users
 	if len(users) == 0 {
 		return nil, errors.New("users is null")
 	}

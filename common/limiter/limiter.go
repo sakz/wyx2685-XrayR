@@ -27,6 +27,17 @@ type UserInfo struct {
 	DeviceLimit int
 }
 
+// oldOnlineRecord keeps a device IP seen in a previous online window,
+// with a timestamp so entries that never reappear can be expired.
+type oldOnlineRecord struct {
+	uid   int
+	since int64
+}
+
+// oldOnlineTTL bounds how long an unmatched historical IP is kept
+// so OldUserOnline cannot grow without limit across reporting cycles.
+const oldOnlineTTL = 15 * 60 // seconds
+
 type InboundInfo struct {
 	Tag            string
 	NodeSpeedLimit uint64
@@ -131,11 +142,37 @@ func (l *Limiter) DeleteInboundLimiter(tag string) error {
 	return nil
 }
 
+// DeleteUserLimiter drops limiter state for users removed from the panel.
+// Without this, UserInfo/BucketHub entries outlive the credential removal
+// and accumulate over user churn.
+func (l *Limiter) DeleteUserLimiter(tag string, deletedUserList *[]api.UserInfo) error {
+	value, ok := l.InboundInfo.Load(tag)
+	if !ok {
+		return fmt.Errorf("no such inbound in limiter: %s", tag)
+	}
+	inboundInfo := value.(*InboundInfo)
+	for _, u := range *deletedUserList {
+		key := fmt.Sprintf("%s|%s|%d", tag, u.Email, u.UID)
+		inboundInfo.UserInfo.Delete(key)
+		inboundInfo.BucketHub.Delete(key)
+		inboundInfo.UserOnlineIP.Delete(key)
+	}
+	return nil
+}
+
 func (l *Limiter) GetOnlineDevice(tag string) (*[]api.OnlineUser, error) {
 	var onlineUser []api.OnlineUser
 
 	if value, ok := l.InboundInfo.Load(tag); ok {
 		inboundInfo := value.(*InboundInfo)
+		// Expire historical IPs that never reconnected, bounding map growth
+		now := time.Now().Unix()
+		inboundInfo.OldUserOnline.Range(func(key, value interface{}) bool {
+			if rec := value.(*oldOnlineRecord); now-rec.since > oldOnlineTTL {
+				inboundInfo.OldUserOnline.Delete(key)
+			}
+			return true
+		})
 		// Clear Speed Limiter bucket for users who are not online
 		inboundInfo.BucketHub.Range(func(key, value interface{}) bool {
 			email := key.(string)
@@ -150,7 +187,7 @@ func (l *Limiter) GetOnlineDevice(tag string) (*[]api.OnlineUser, error) {
 			ipMap.Range(func(key, value interface{}) bool {
 				uid := value.(int)
 				ip := key.(string)
-				inboundInfo.OldUserOnline.Store(ip, uid)
+				inboundInfo.OldUserOnline.Store(ip, &oldOnlineRecord{uid: uid, since: now})
 				onlineUser = append(onlineUser, api.OnlineUser{UID: uid, IP: ip})
 				return true
 			})
@@ -207,7 +244,7 @@ func (l *Limiter) GetUserBucket(tag string, email string, ip string, isSourceTCP
 					}
 				}
 			} else if v, ok := inboundInfo.OldUserOnline.Load(ip); ok {
-				if v.(int) == uid {
+				if rec := v.(*oldOnlineRecord); rec.uid == uid {
 					inboundInfo.OldUserOnline.Delete(ip)
 				}
 			} else {

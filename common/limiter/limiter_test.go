@@ -5,6 +5,7 @@ import (
 	"runtime"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/wyx2685/XrayR/api"
 	"golang.org/x/time/rate"
@@ -83,7 +84,7 @@ func TestBucketDeviceBranches(t *testing.T) {
 			if reject != tcp {
 				t.Fatal("device limit must apply only to TCP")
 			}
-			in.OldUserOnline.Store("192.0.2.1", 1000)
+			in.OldUserOnline.Store("192.0.2.1", &oldOnlineRecord{uid: 1000, since: time.Now().Unix()})
 			_, _, reject = l.GetUserBucket("test", keys[0], "192.0.2.1", tcp)
 			if reject {
 				t.Fatal("previous online IP must be admitted")
@@ -218,4 +219,64 @@ func TestBucketAllocationWorkload(t *testing.T) {
 	runtime.ReadMemStats(&after)
 	t.Logf("operations=%d allocated_bytes=%d allocations=%d num_gc=%d gc_pause_ns=%d", operations, after.TotalAlloc-before.TotalAlloc, after.Mallocs-before.Mallocs, after.NumGC-before.NumGC, after.PauseTotalNs-before.PauseTotalNs)
 	runtime.KeepAlive(l)
+}
+
+func TestDeleteUserLimiter(t *testing.T) {
+	l, keys := testLimiter(t, 2, 1000000)
+	v, _ := l.InboundInfo.Load("test")
+	in := v.(*InboundInfo)
+
+	// Make both users "online" so buckets and IP maps exist
+	for i, key := range keys {
+		l.GetUserBucket("test", key, fmt.Sprintf("192.0.2.%d", i+1), true)
+	}
+
+	deleted := []api.UserInfo{{UID: 1000, Email: "user0@example.test", SpeedLimit: 1000000}}
+	if err := l.DeleteUserLimiter("test", &deleted); err != nil {
+		t.Fatal(err)
+	}
+	if _, ok := in.UserInfo.Load(keys[0]); ok {
+		t.Fatal("UserInfo entry must be removed for deleted user")
+	}
+	if _, ok := in.BucketHub.Load(keys[0]); ok {
+		t.Fatal("BucketHub entry must be removed for deleted user")
+	}
+	if _, ok := in.UserOnlineIP.Load(keys[0]); ok {
+		t.Fatal("UserOnlineIP entry must be removed for deleted user")
+	}
+	if _, ok := in.UserInfo.Load(keys[1]); !ok {
+		t.Fatal("surviving user must keep limiter state")
+	}
+	_, limited, reject := l.GetUserBucket("test", keys[1], "192.0.2.2", true)
+	if !limited || reject {
+		t.Fatal("surviving user must still get a bucket")
+	}
+	if err := l.DeleteUserLimiter("missing", &deleted); err == nil {
+		t.Fatal("unknown inbound must fail")
+	}
+}
+
+func TestOldOnlineExpiry(t *testing.T) {
+	l, _ := testLimiter(t, 1, 0)
+	v, _ := l.InboundInfo.Load("test")
+	in := v.(*InboundInfo)
+
+	fresh := &oldOnlineRecord{uid: 1000, since: time.Now().Unix()}
+	stale := &oldOnlineRecord{uid: 1000, since: time.Now().Unix() - oldOnlineTTL - 1}
+	in.OldUserOnline.Store("192.0.2.10", fresh)
+	in.OldUserOnline.Store("192.0.2.11", stale)
+
+	online, err := l.GetOnlineDevice("test")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(*online) != 0 {
+		t.Fatalf("no current online devices expected, got %v", online)
+	}
+	if _, ok := in.OldUserOnline.Load("192.0.2.10"); !ok {
+		t.Fatal("fresh record must survive one collection")
+	}
+	if _, ok := in.OldUserOnline.Load("192.0.2.11"); ok {
+		t.Fatal("stale record must be expired")
+	}
 }

@@ -106,29 +106,27 @@ func (c *Controller) removeUsers(users []string, tag string) error {
 }
 
 func (c *Controller) getTraffic(email string) (up int64, down int64, upCounter stats.Counter, downCounter stats.Counter) {
-	upName := "user>>>" + email + ">>>traffic>>>uplink"
-	downName := "user>>>" + email + ">>>traffic>>>downlink"
-	upCounter = c.stm.GetCounter(upName)
-	downCounter = c.stm.GetCounter(downName)
-	if upCounter != nil && upCounter.Value() != 0 {
+	upCounter, downCounter = c.dispatcher.LookupUserCounters(email)
+	if upCounter != nil {
 		up = upCounter.Value()
-	} else {
-		upCounter = nil
 	}
-	if downCounter != nil && downCounter.Value() != 0 {
+	if downCounter != nil {
 		down = downCounter.Value()
-	} else {
-		downCounter = nil
 	}
 	return up, down, upCounter, downCounter
 }
 
-func (c *Controller) resetTraffic(upCounterList *[]stats.Counter, downCounterList *[]stats.Counter) {
-	for _, upCounter := range *upCounterList {
-		upCounter.Set(0)
-	}
-	for _, downCounter := range *downCounterList {
-		downCounter.Set(0)
+// deductTraffic subtracts exactly the reported amounts from the counters.
+// Unlike a hard reset this preserves traffic recorded while the report was
+// in flight, so slow panels never lose billed bytes.
+func (c *Controller) deductTraffic(userTraffic *[]api.UserTraffic, upCounterList *[]stats.Counter, downCounterList *[]stats.Counter) {
+	for i, t := range *userTraffic {
+		if i < len(*upCounterList) && (*upCounterList)[i] != nil {
+			(*upCounterList)[i].Add(-t.Upload)
+		}
+		if i < len(*downCounterList) && (*downCounterList)[i] != nil {
+			(*downCounterList)[i].Add(-t.Download)
+		}
 	}
 }
 
@@ -142,7 +140,14 @@ func (c *Controller) UpdateInboundLimiter(tag string, updatedUserList *[]api.Use
 	return err
 }
 
+func (c *Controller) DeleteUserLimiter(tag string, deletedUserList *[]api.UserInfo) error {
+	err := c.dispatcher.Limiter.DeleteUserLimiter(tag, deletedUserList)
+	return err
+}
+
 func (c *Controller) DeleteInboundLimiter(tag string) error {
+	// Drop cached user counters too so a rebuilt inbound leaves no residue
+	c.dispatcher.RemoveTagCounters(tag)
 	err := c.dispatcher.Limiter.DeleteInboundLimiter(tag)
 	return err
 }

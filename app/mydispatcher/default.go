@@ -108,6 +108,15 @@ type DefaultDispatcher struct {
 	fdns        dns.FakeDNSEngine
 	Limiter     *limiter.Limiter
 	RuleManager *rule.Manager
+
+	userCounters sync.Map // composite user email -> *userCounterPair
+	policyCache  sync.Map // user level -> policy.Session
+}
+
+// userCounterPair caches the stats manager lookups for one user so repeat
+// connections and monitor scans skip the manager's global lock.
+type userCounterPair struct {
+	up, down stats.Counter
 }
 
 func init() {
@@ -135,6 +144,88 @@ func (d *DefaultDispatcher) Init(config *Config, om outbound.Manager, router rou
 	d.RuleManager = rule.New()
 	d.dns = dns
 	return nil
+}
+
+// cachedPolicy memoizes policy.Manager.ForLevel, which takes the manager's
+// lock on every call.
+func (d *DefaultDispatcher) cachedPolicy(level uint32) policy.Session {
+	if v, ok := d.policyCache.Load(level); ok {
+		return v.(policy.Session)
+	}
+	p := d.policy.ForLevel(level)
+	d.policyCache.Store(level, p)
+	return p
+}
+
+// UserCounters returns the per-user traffic counters, registering them on
+// first use and caching the result.
+func (d *DefaultDispatcher) UserCounters(email string) (up stats.Counter, down stats.Counter) {
+	if v, ok := d.userCounters.Load(email); ok {
+		pair := v.(*userCounterPair)
+		return pair.up, pair.down
+	}
+	up = getOrRegisterCounter(d.stats, "user>>>"+email+">>>traffic>>>uplink")
+	down = getOrRegisterCounter(d.stats, "user>>>"+email+">>>traffic>>>downlink")
+	if up == nil || down == nil {
+		// Stats unavailable or the registration raced with removal; leave
+		// the cache empty so the next connection can retry cleanly.
+		return up, down
+	}
+	d.userCounters.Store(email, &userCounterPair{up: up, down: down})
+	return up, down
+}
+
+// getOrRegisterCounter registers the counter or, when registration was lost
+// to a concurrent caller, fetches the winner's counter. Caching a nil here
+// would permanently disable traffic accounting for the user.
+func getOrRegisterCounter(m stats.Manager, name string) stats.Counter {
+	c, err := stats.GetOrRegisterCounter(m, name)
+	if err != nil {
+		return m.GetCounter(name)
+	}
+	return c
+}
+
+// LookupUserCounters returns cached counters without registering new ones;
+// nil when the user never had a connection.
+func (d *DefaultDispatcher) LookupUserCounters(email string) (up stats.Counter, down stats.Counter) {
+	if v, ok := d.userCounters.Load(email); ok {
+		pair := v.(*userCounterPair)
+		return pair.up, pair.down
+	}
+	up = d.stats.GetCounter("user>>>" + email + ">>>traffic>>>uplink")
+	down = d.stats.GetCounter("user>>>" + email + ">>>traffic>>>downlink")
+	return up, down
+}
+
+// RemoveUserCounters drops cached counters and unregisters them from the
+// stats manager so churned users do not accumulate.
+func (d *DefaultDispatcher) RemoveUserCounters(emails []string) {
+	for _, email := range emails {
+		v, ok := d.userCounters.LoadAndDelete(email)
+		if !ok {
+			continue
+		}
+		pair := v.(*userCounterPair)
+		if pair.up != nil {
+			d.stats.UnregisterCounter("user>>>" + email + ">>>traffic>>>uplink")
+		}
+		if pair.down != nil {
+			d.stats.UnregisterCounter("user>>>" + email + ">>>traffic>>>downlink")
+		}
+	}
+}
+
+// RemoveTagCounters drops all cached counters whose composite email starts
+// with the inbound tag, used when a node's inbound is rebuilt.
+func (d *DefaultDispatcher) RemoveTagCounters(tag string) {
+	prefix := tag + "|"
+	d.userCounters.Range(func(key, value interface{}) bool {
+		if email, ok := key.(string); ok && strings.HasPrefix(email, prefix) {
+			d.RemoveUserCounters([]string{email})
+		}
+		return true
+	})
 }
 
 // Type implements common.HasType.
@@ -186,25 +277,22 @@ func (d *DefaultDispatcher) getLink(ctx context.Context) (*transport.Link, *tran
 			return nil, nil, newError("Devices reach the limit: ", user.Email)
 		}
 		if ok {
-			inboundLink.Writer = d.Limiter.RateWriter(inboundLink.Writer, bucket)
-			outboundLink.Writer = d.Limiter.RateWriter(outboundLink.Writer, bucket)
+			inboundLink.Writer = d.Limiter.RateWriter(ctx, inboundLink.Writer, bucket)
+			outboundLink.Writer = d.Limiter.RateWriter(ctx, outboundLink.Writer, bucket)
 		}
 
-		p := d.policy.ForLevel(user.Level)
-		if p.Stats.UserUplink {
-			name := "user>>>" + user.Email + ">>>traffic>>>uplink"
-			if c, _ := stats.GetOrRegisterCounter(d.stats, name); c != nil {
+		p := d.cachedPolicy(user.Level)
+		if p.Stats.UserUplink || p.Stats.UserDownlink {
+			up, down := d.UserCounters(user.Email)
+			if p.Stats.UserUplink && up != nil {
 				inboundLink.Writer = &dispatcher.SizeStatWriter{
-					Counter: c,
+					Counter: up,
 					Writer:  inboundLink.Writer,
 				}
 			}
-		}
-		if p.Stats.UserDownlink {
-			name := "user>>>" + user.Email + ">>>traffic>>>downlink"
-			if c, _ := stats.GetOrRegisterCounter(d.stats, name); c != nil {
+			if p.Stats.UserDownlink && down != nil {
 				outboundLink.Writer = &dispatcher.SizeStatWriter{
-					Counter: c,
+					Counter: down,
 					Writer:  outboundLink.Writer,
 				}
 			}
