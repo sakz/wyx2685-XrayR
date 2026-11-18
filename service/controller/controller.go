@@ -92,13 +92,8 @@ func (c *Controller) Start() error {
 	c.nodeInfo = newNodeInfo
 	c.Tag = c.buildNodeTag()
 
-	// Add new tag
-	err = c.addNewTag(newNodeInfo)
-	if err != nil {
-		c.logger.Panic(err)
-		return err
-	}
-	// Update user
+	// Fetch users before the listener opens so a slow panel never widens the
+	// window where authorized connections have no limiter entry.
 	userInfo, err := c.apiClient.GetUserList()
 	if err != nil {
 		return err
@@ -107,14 +102,25 @@ func (c *Controller) Start() error {
 	// sync controller userList
 	c.userList = userInfo
 
-	err = c.addNewUser(userInfo, newNodeInfo)
-	if err != nil {
-		return err
-	}
-
-	// Add Limiter
+	// Add Limiter before the listener opens
 	if err := c.AddInboundLimiter(c.Tag, newNodeInfo.SpeedLimit, userInfo, c.config.GlobalDeviceLimitConfig); err != nil {
 		c.logger.Print(err)
+	}
+
+	// Add new tag
+	err = c.addNewTag(newNodeInfo, userInfo)
+	if err != nil {
+		c.logger.Panic(err)
+		return err
+	}
+	// Update user
+	if c.usersEmbeddedInInbound(newNodeInfo) {
+		c.logger.Printf("Added %d new users", len(*userInfo))
+	} else {
+		err = c.addNewUser(userInfo, newNodeInfo)
+		if err != nil {
+			return err
+		}
 	}
 
 	// Update alive user list
@@ -256,7 +262,12 @@ func (c *Controller) nodeInfoMonitor() (err error) {
 			// Add new tag
 			c.nodeInfo = newNodeInfo
 			c.Tag = c.buildNodeTag()
-			err = c.addNewTag(newNodeInfo)
+			// Register the limiter before the listener opens, same as Start
+			if err := c.AddInboundLimiter(c.Tag, newNodeInfo.SpeedLimit, newUserInfo, c.config.GlobalDeviceLimitConfig); err != nil {
+				c.logger.Print(err)
+				return nil
+			}
+			err = c.addNewTag(newNodeInfo, newUserInfo)
 			if err != nil {
 				c.logger.Print(err)
 				return nil
@@ -289,18 +300,15 @@ func (c *Controller) nodeInfoMonitor() (err error) {
 	}
 
 	if nodeInfoChanged {
-		err = c.addNewUser(newUserInfo, newNodeInfo)
-		if err != nil {
-			c.logger.Print(err)
-			return nil
+		if c.usersEmbeddedInInbound(newNodeInfo) {
+			c.logger.Printf("Added %d new users", len(*newUserInfo))
+		} else {
+			err = c.addNewUser(newUserInfo, newNodeInfo)
+			if err != nil {
+				c.logger.Print(err)
+				return nil
+			}
 		}
-
-		// Add Limiter
-		if err := c.AddInboundLimiter(c.Tag, newNodeInfo.SpeedLimit, newUserInfo, c.config.GlobalDeviceLimitConfig); err != nil {
-			c.logger.Print(err)
-			return nil
-		}
-
 	} else {
 		var deleted, added []api.UserInfo
 		if usersChanged {
@@ -354,9 +362,9 @@ func (c *Controller) removeOldTag(oldTag string) (err error) {
 	return nil
 }
 
-func (c *Controller) addNewTag(newNodeInfo *api.NodeInfo) (err error) {
+func (c *Controller) addNewTag(newNodeInfo *api.NodeInfo, userInfo *[]api.UserInfo) (err error) {
 	if newNodeInfo.NodeType != "Shadowsocks-Plugin" {
-		inboundConfig, err := InboundBuilder(c.config, newNodeInfo, c.Tag)
+		inboundConfig, err := InboundBuilder(c.config, newNodeInfo, c.Tag, c.buildSSInboundUsers(newNodeInfo, userInfo))
 		if err != nil {
 			return err
 		}
@@ -388,7 +396,7 @@ func (c *Controller) addInboundForSSPlugin(newNodeInfo api.NodeInfo) (err error)
 	fakeNodeInfo.TransportProtocol = "tcp"
 	fakeNodeInfo.EnableTLS = false
 	// Add a regular Shadowsocks inbound and outbound
-	inboundConfig, err := InboundBuilder(c.config, &fakeNodeInfo, c.Tag)
+	inboundConfig, err := InboundBuilder(c.config, &fakeNodeInfo, c.Tag, nil)
 	if err != nil {
 		return err
 	}
@@ -412,7 +420,7 @@ func (c *Controller) addInboundForSSPlugin(newNodeInfo api.NodeInfo) (err error)
 	fakeNodeInfo.Port++
 	fakeNodeInfo.NodeType = "dokodemo-door"
 	dokodemoTag := fmt.Sprintf("dokodemo-door_%s+1", c.Tag)
-	inboundConfig, err = InboundBuilder(c.config, &fakeNodeInfo, dokodemoTag)
+	inboundConfig, err = InboundBuilder(c.config, &fakeNodeInfo, dokodemoTag, nil)
 	if err != nil {
 		return err
 	}

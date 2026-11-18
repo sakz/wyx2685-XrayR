@@ -281,7 +281,7 @@ func (l *Limiter) GetUserBucket(tag string, email string, ip string, isSourceTCP
 			return nil, false, false
 		}
 	} else {
-		log.Error("Get Inbound Limiter information failed")
+		log.Errorf("Get Inbound Limiter information failed: tag=%s email=%s", tag, email)
 		return nil, false, false
 	}
 }

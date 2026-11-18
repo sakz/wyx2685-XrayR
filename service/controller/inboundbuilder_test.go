@@ -1,7 +1,11 @@
 package controller_test
 
 import (
+	"bytes"
+	"encoding/base64"
 	"testing"
+
+	"github.com/xtls/xray-core/infra/conf"
 
 	"github.com/wyx2685/XrayR/api"
 	"github.com/wyx2685/XrayR/common/mylego"
@@ -29,7 +33,7 @@ func TestBuildV2ray(t *testing.T) {
 	config := &Config{
 		CertConfig: certConfig,
 	}
-	_, err := InboundBuilder(config, nodeInfo, "test_tag")
+	_, err := InboundBuilder(config, nodeInfo, "test_tag", nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -60,7 +64,7 @@ func TestBuildTrojan(t *testing.T) {
 	config := &Config{
 		CertConfig: certConfig,
 	}
-	_, err := InboundBuilder(config, nodeInfo, "test_tag")
+	_, err := InboundBuilder(config, nodeInfo, "test_tag", nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -77,6 +81,7 @@ func TestBuildSS(t *testing.T) {
 		Host:              "test.test.tk",
 		Path:              "v2ray",
 		EnableTLS:         false,
+		CypherMethod:      "aes-256-gcm",
 	}
 	DNSEnv := make(map[string]string)
 	DNSEnv["ALICLOUD_ACCESS_KEY"] = "aaa"
@@ -91,7 +96,29 @@ func TestBuildSS(t *testing.T) {
 	config := &Config{
 		CertConfig: certConfig,
 	}
-	_, err := InboundBuilder(config, nodeInfo, "test_tag")
+	_, err := InboundBuilder(config, nodeInfo, "test_tag", nil)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestBuildSS2022WithUsers(t *testing.T) {
+	key := func(b byte) string {
+		return base64.StdEncoding.EncodeToString(bytes.Repeat([]byte{b}, 32))
+	}
+	nodeInfo := &api.NodeInfo{
+		NodeType:          "Shadowsocks",
+		NodeID:            1,
+		Port:              1145,
+		TransportProtocol: "tcp",
+		CypherMethod:      "2022-blake3-aes-256-gcm",
+		ServerKey:         key(1),
+	}
+	config := &Config{}
+	users := []*conf.ShadowsocksUserConfig{
+		{Password: key(2), Email: "test_tag|a@example.com|1"},
+	}
+	_, err := InboundBuilder(config, nodeInfo, "test_tag", users)
 	if err != nil {
 		t.Error(err)
 	}

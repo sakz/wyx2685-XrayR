@@ -105,6 +105,35 @@ func (c *Controller) buildSSUser(userInfo *[]api.UserInfo, method string) (users
 	return users
 }
 
+// usersEmbeddedInInbound reports whether the initial users can be built into
+// the inbound config directly. SS2022 rebuilds its whole user table on every
+// AddUser, which makes a one-by-one full load O(n^2), so its users must be
+// passed at creation time.
+func (c *Controller) usersEmbeddedInInbound(nodeInfo *api.NodeInfo) bool {
+	return nodeInfo.NodeType == "Shadowsocks" &&
+		C.Contains(shadowaead_2022.List, strings.ToLower(nodeInfo.CypherMethod))
+}
+
+func (c *Controller) buildSSInboundUsers(nodeInfo *api.NodeInfo, userInfo *[]api.UserInfo) []*conf.ShadowsocksUserConfig {
+	if !c.usersEmbeddedInInbound(nodeInfo) {
+		return nil
+	}
+	users := make([]*conf.ShadowsocksUserConfig, 0, len(*userInfo))
+	for i := range *userInfo {
+		user := &(*userInfo)[i]
+		userKey, err := c.checkShadowsocksPassword(user.Passwd, nodeInfo.CypherMethod)
+		if err != nil {
+			log.Error(fmt.Errorf("[UID: %d] %s", user.UID, err))
+			continue
+		}
+		users = append(users, &conf.ShadowsocksUserConfig{
+			Password: userKey,
+			Email:    c.buildUserTag(user),
+		})
+	}
+	return users
+}
+
 func (c *Controller) buildSSPluginUser(userInfo *[]api.UserInfo) (users []*protocol.User) {
 	users = make([]*protocol.User, len(*userInfo))
 
